@@ -1,6 +1,9 @@
 # Animal-feeding-Phase-I
 
 ## Aim: 
+To develop a animal feeding game-Phase-1 using unity.
+
+
 
 ## Algorithm:
 
@@ -21,7 +24,87 @@
 ### Step 6: Edit their speed values and test to see how it looks. Drag all three animals into the Prefabs folder, choosing “Original Prefab”
 
 ## Program:
+# Player Controller:
+```c
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class PlayerController : MonoBehaviour
+{
+    public float horizontalInput;
+    public float speed = 10.0f;
+    public float xRange = 10f;
+    public GameObject projectilePrefab;
+    // Start is called before the first frame update
+    void Start()
+    {}
+    void Update()
+    {
+        if(transform.position.x < -xRange)
+        {
+            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+        }
+        if(transform.position.x > xRange)
+        {
+            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+        horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
+    }
+}
+```
+# Move Forward:
+```c
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class Moveforward : MonoBehaviour
+{
+    public float speed = 40.0f;
+    // Start is called before the first frame update
+    void Start()
+    {}
+    void Update()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
+}
+```
+# Spawn Manager:
+```c
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class SpanManager : MonoBehaviour
+{
+    public GameObject[] animalPrefabs;
+    public float spawnX = 20, spawnz = 20;
+    public float startDelay = 2;
+    public float spawnInterval = 1.5f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        InvokeRepeating("SpawnRandomAnimal", startDelay, spawnInterval); 
+    }
+    // Update is called once per frame
+    void Update()
+    {
+    }
+    void SpawnRandomInterval()
+    {
+        int animalIndex = Random.Range(0, animalPrefabs.Length);
+        Vector3 spawnpos = new Vector3(Random.Range(-spawnX, 0, spawnz));
+        Instantiate(animalPrefabs[animalIndex], spawnpos, animalPrefabs[animalIndex].transform.rotation);
+    }
+}
+```
 
 ## Output:
+![173235243-fbd83cb0-0991-4245-bc4c-05f3e8cf9096](https://github.com/shankar-saradha/Animal-feeding-Phase-I/assets/93978702/2edc6749-30c2-41c2-8381-a2f275be564c)
 
 ## Result:
+Animal feeding game-Phase-1 using unity is developed successfully.
